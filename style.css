@@ -1,0 +1,162 @@
+:root {
+    --primary: #00ff88;
+    --secondary: #00d4ff;
+    --bg-dark: #020a0d;
+    --glass: rgba(0, 255, 136, 0.05);
+    --glass-border: rgba(0, 255, 136, 0.2);
+    --neon-glow: 0 0 15px rgba(0, 255, 136, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-dark);
+    background-image: 
+        linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    color: var(--primary);
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    text-align: center;
+    min-height: 100vh;
+}
+
+/* 🔹 Navbar */
+.navbar {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--primary);
+}
+
+.navbar a {
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+.navbar a:hover { text-shadow: var(--neon-glow); }
+
+/* 🔹 Cards & Board */
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 85px);
+    gap: 15px;
+    justify-content: center;
+    perspective: 1000px;
+    margin: 30px auto;
+}
+
+.card {
+    width: 85px;
+    height: 110px;
+    cursor: pointer;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card.flipped { transform: rotateY(180deg); }
+
+.card-inner { position: relative; width: 100%; height: 100%; }
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--glass-border);
+}
+
+.card-front {
+    background: #0a151a;
+    color: var(--primary);
+    font-size: 0.7rem;
+}
+
+.card-back {
+    background: #fff;
+    color: #000;
+    transform: rotateY(180deg);
+    font-size: 2rem;
+}
+
+.card.matched {
+    border-color: var(--secondary);
+    box-shadow: 0 0 15px var(--secondary);
+    opacity: 0.7;
+}
+
+/* 🔹 UI Components */
+.glass {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    padding: 25px;
+    border-radius: 15px;
+    display: inline-block;
+}
+
+.btn {
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 10px 25px;
+    cursor: pointer;
+    font-family: inherit;
+    clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+}
+
+.btn:hover { background: var(--primary); color: #000; box-shadow: var(--neon-glow); }
+
+.fade { animation: fadeIn 0.8s ease-in; }
+@keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
+
+/* Ensure the inner container can hold 3D space */
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d; /* CRITICAL: Allows children to exist in 3D */
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden; /* Hides the 'reverse' side of the element */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+/* The front starts at 0 degrees */
+.card-front {
+    background: #0a151a;
+    color: var(--primary);
+    z-index: 2; /* Keeps front on top initially */
+}
+
+/* The back starts already rotated 180 degrees */
+.card-back {
+    background: #00ff88; /* High contrast for testing */
+    color: #000;
+    transform: rotateY(180deg); /* This is the secret sauce */
+}
