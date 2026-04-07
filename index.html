@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Memory Game</title>
+    <title>Neural Decryptor | Home</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,64 +13,14 @@
         <a href="about.html">04_LOGS</a>
     </nav>
 
-    <h2>Memory Matching Game</h2>
+    <div class="hero" style="margin-top: 100px;">
+        <h1 style="font-size: 4rem;">NEURAL_DECRYPTOR</h1>
+        <p style="margin: 20px 0;">ACCESS RESTRICTED. MATCH THE CARDS.</p>
 
-    <div id="game-board"></div>
-
-    <button onclick="startGame()">Restart</button>
-
-    <script>
-        const symbols = ["🍎","🍌","🍇","🍓","🍍","🥝","🍒","🥥"];
-        let cards = [...symbols, ...symbols];
-        let flipped = [];
-
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                let j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        function startGame() {
-            const board = document.getElementById("game-board");
-            board.innerHTML = "";
-            shuffle(cards);
-            flipped = [];
-
-            cards.forEach((symbol) => {
-                const card = document.createElement("div");
-                card.className = "card";
-                card.innerHTML = "?";
-
-                card.onclick = () => flipCard(card, symbol);
-                board.appendChild(card);
-            });
-        }
-
-        function flipCard(card, symbol) {
-            if (flipped.length < 2 && !card.classList.contains("flipped")) {
-                card.innerHTML = symbol;
-                card.classList.add("flipped");
-                flipped.push(card);
-
-                if (flipped.length === 2) {
-                    if (flipped[0].innerHTML !== flipped[1].innerHTML) {
-                        setTimeout(() => {
-                            flipped.forEach(c => {
-                                c.innerHTML = "?";
-                                c.classList.remove("flipped");
-                            });
-                            flipped = [];
-                        }, 800);
-                    } else {
-                        flipped = [];
-                    }
-                }
-            }
-        }
-
-        startGame();
-    </script>
+        <a href="memory_game.html">
+            <button>START GAME</button>
+        </a>
+    </div>
 
 </body>
 </html>
