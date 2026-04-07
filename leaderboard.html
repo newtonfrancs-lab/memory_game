@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Leaderboard</title>
+    <title>Neural Decryptor | Registry</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <nav class="navbar">
         <a href="index.html">01_ROOT</a>
         <a href="memory_game.html">02_BREACH</a>
@@ -13,8 +12,27 @@
         <a href="about.html">04_LOGS</a>
     </nav>
 
-    <h2>Leaderboard</h2>
-    <p>No scores yet.</p>
+    <div class="glass fade" style="margin-top: 50px; width: 80%;">
+        <h2 style="margin-bottom: 20px;">GLOBAL_REGISTRY</h2>
+        <div id="board"></div>
+    </div>
 
+    <script>
+        const data = JSON.parse(localStorage.getItem("memoryData")) || [];
+        data.sort((a, b) => b.score - a.score);
+        let html = `<table style="width:100%; border-collapse:collapse;">
+            <tr style="border-bottom: 1px solid var(--primary); color:var(--secondary);">
+                <th>RANK</th><th>ID</th><th>SCORE</th><th>TIME</th>
+            </tr>`;
+        data.forEach((d, i) => {
+            html += `<tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <td style="padding:10px;">#0${i+1}</td>
+                <td>${d.player}</td>
+                <td>${d.score}</td>
+                <td>${d.time}s</td>
+            </tr>`;
+        });
+        document.getElementById("board").innerHTML = html + "</table>";
+    </script>
 </body>
 </html>
