@@ -5,103 +5,82 @@
     <title>Neural Decryptor | Breach</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <nav class="navbar">
-        <a href="index.html">01_ROOT</a>
-        <a href="memory_game.html">02_BREACH</a>
-        <a href="leaderboard.html">03_RANK</a>
-        <a href="about.html">04_LOGS</a>
-    </nav>
 
-    <div class="game-container fade" style="margin-top: 50px;">
-        <div class="glass" style="margin-bottom: 20px;">
-            <input id="player" placeholder="NETRUNNER_ID" style="background:transparent; border:none; border-bottom: 1px solid var(--primary); color:white; outline:none; padding:5px;">
-            <button class="btn" onclick="initBattle()">START_UPLINK</button>
-        </div>
+<nav class="navbar">
+    <a href="index.html">01_ROOT</a>
+    <a href="memory_game.html">02_BREACH</a>
+    <a href="leaderboard.html">03_RANK</a>
+    <a href="about.html">04_LOGS</a>
+</nav>
 
-        <div class="stats-bar">
-            <p>ATTEMPTS: <span id="moves">00</span> | TIME: <span id="time">00:00</span></p>
-        </div>
+<div class="container fade">
 
-        <div id="game-board"></div>
-    </div>
+    <h2>MEMORY_BREACH</h2>
 
-    <script src="game.js">
-        const CONFIG = {
-            icons: ['💾', '📡', '🛡️', '🔑', '📟', '🔌', '💻', '🔋'],
-            scoring: { base: 10000, movePenalty: 100, timePenalty: 40 }
-        };
+    <div id="game-board"></div>
 
-        let state = { flipped: [], matched: 0, moves: 0, time: 0, lock: false, interval: null };
+    <button class="btn" onclick="startGame()">RESTART</button>
 
-        function initBattle() {
-            const board = document.getElementById("game-board");
-            board.innerHTML = "";
-            state = { flipped: [], matched: 0, moves: 0, time: 0, lock: false };
-            document.getElementById("moves").innerText = "00";
-            
-            clearInterval(state.interval);
-            state.interval = setInterval(updateClock, 1000);
+</div>
 
-            const deck = [...CONFIG.icons, ...CONFIG.icons].sort(() => Math.random() - 0.5);
-            deck.forEach(icon => {
-                const card = document.createElement("div");
-                card.className = "card";
-                card.innerHTML = `<div class="card-inner"><div class="card-front">LINKING...</div><div class="card-back">${icon}</div></div>`;
-                card.onclick = () => flipCard(card);
-                board.appendChild(card);
-            });
-        }
+<script>
+const symbols = ["💀","👁","⚡","🧠","💻","🔐","📡","🧬"];
+let cards = [...symbols, ...symbols];
+let flipped = [];
+let matched = [];
 
-        function updateClock() {
-            state.time++;
-            const m = Math.floor(state.time / 60).toString().padStart(2, '0');
-            const s = (state.time % 60).toString().padStart(2, '0');
-            document.getElementById("time").innerText = `${m}:${s}`;
-        }
+function shuffle(array){
+    for(let i=array.length-1;i>0;i--){
+        let j=Math.floor(Math.random()*(i+1));
+        [array[i],array[j]]=[array[j],array[i]];
+    }
+}
 
-        function flipCard(card) {
-            if (state.lock || card.classList.contains("flipped")) return;
-            card.classList.add("flipped");
-            state.flipped.push(card);
+function startGame(){
+    const board = document.getElementById("game-board");
+    board.innerHTML = "";
+    shuffle(cards);
+    flipped = [];
+    matched = [];
 
-            if (state.flipped.length === 2) {
-                state.moves++;
-                document.getElementById("moves").innerText = state.moves.toString().padStart(2, '0');
-                checkMatch();
-            }
-        }
+    cards.forEach((symbol,index)=>{
+        const card = document.createElement("div");
+        card.className = "card";
 
-        function checkMatch() {
-            state.lock = true;
-            const [c1, c2] = state.flipped;
-            const match = c1.querySelector(".card-back").innerText === c2.querySelector(".card-back").innerText;
+        card.innerHTML = `
+            <div class="card-inner">
+                <div class="card-front">?</div>
+                <div class="card-back">${symbol}</div>
+            </div>
+        `;
 
-            if (match) {
-                c1.classList.add("matched"); c2.classList.add("matched");
-                state.matched++;
-                state.flipped = [];
-                state.lock = false;
-                if (state.matched === CONFIG.icons.length) finalize();
+        card.onclick = () => flipCard(card,index);
+        board.appendChild(card);
+    });
+}
+
+function flipCard(card,index){
+    if(flipped.length<2 && !card.classList.contains("flipped")){
+        card.classList.add("flipped");
+        flipped.push({card,index});
+
+        if(flipped.length===2){
+            if(cards[flipped[0].index]===cards[flipped[1].index]){
+                flipped = [];
             } else {
-                setTimeout(() => {
-                    c1.classList.remove("flipped"); c2.classList.remove("flipped");
-                    state.flipped = [];
-                    state.lock = false;
-                }, 1000);
+                setTimeout(()=>{
+                    flipped.forEach(f=>f.card.classList.remove("flipped"));
+                    flipped = [];
+                },600);
             }
         }
+    }
+}
 
-        function finalize() {
-            clearInterval(state.interval);
-            const score = Math.max(CONFIG.scoring.base - (state.moves * CONFIG.scoring.movePenalty) - (state.time * CONFIG.scoring.timePenalty), 500);
-            const name = document.getElementById("player").value || "GHOST";
-            let data = JSON.parse(localStorage.getItem("memoryData")) || [];
-            data.push({player: name, moves: state.moves, time: state.time, score});
-            localStorage.setItem("memoryData", JSON.stringify(data));
-            alert(`UPLINK_STABLE. SCORE: ${score}`);
-            window.location.href = "leaderboard.html";
-        }
-    </script>
+startGame();
+</script>
+
 </body>
 </html>
