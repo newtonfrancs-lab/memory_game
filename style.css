@@ -18,103 +18,69 @@
 /* BODY */
 body {
     font-family: 'JetBrains Mono', monospace;
-    background: var(--bg);
+    background-color: var(--bg);
+
+    /* 🔥 GRID BACKGROUND */
+    background-image: 
+        linear-gradient(rgba(0, 255, 159, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 159, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+
     color: var(--primary);
     text-align: center;
     min-height: 100vh;
-    overflow-x: hidden;
 }
 
-/* 🔥 CYBER GRID */
-body::before {
-    content: "";
-    position: fixed;
-    width: 200%;
-    height: 200%;
-    top: -50%;
-    left: -50%;
-    background-image:
-        linear-gradient(rgba(0,255,159,0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,255,159,0.08) 1px, transparent 1px);
-    background-size: 40px 40px;
-    animation: moveGrid 10s linear infinite;
-    z-index: -2;
-}
-
-/* 🔥 GLOW PULSE */
-body::after {
-    content: "";
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(0,255,159,0.1), transparent 70%);
-    animation: pulse 3s infinite ease-in-out;
-    z-index: -1;
-}
-
-/* ANIMATIONS */
-@keyframes moveGrid {
-    from { transform: translate(0,0); }
-    to { transform: translate(40px,40px); }
-}
-
-@keyframes pulse {
-    0%,100% { opacity: 0.2; }
-    50% { opacity: 0.5; }
-}
-
-/* 🔹 NAVBAR (DEFAULT = HORIZONTAL) */
+/* 🔹 NAVBAR */
 .navbar {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px;
-    border-bottom: 1px solid var(--primary);
-    background: rgba(0,0,0,0.85);
+    justify-content: space-around;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--primary);
 }
 
-/* NAV LINKS */
 .navbar a {
-    flex: 1;
-    text-align: center;
-    font-size: 12px;
-    letter-spacing: 1px;
-    text-decoration: none;
     color: var(--primary);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    font-weight: bold;
 }
 
-/* HOVER */
 .navbar a:hover {
     text-shadow: var(--neon-glow);
 }
 
-@media (max-width: 600px) {
-    .hero h1 {
-        font-size: 28px;
-        letter-spacing: 1px;
-        line-height: 1.3;
-    }
+/* 🔹 HERO */
+.hero {
+    margin-top: 80px;
+    padding: 0 10px;
 }
 
-/* 🔥 TITLE (NEON BLUE) */
+/* 🔥 TITLE (FIXED + NEON) */
 .title {
-    font-size: clamp(22px, 6vw, 50px);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: clamp(28px, 8vw, 60px);
+    letter-spacing: 3px;
+    line-height: 1.2;
+}
+
+/* NEURAL (green) */
+.title {
+    color: var(--primary);
+    text-shadow: 0 0 10px var(--primary);
+}
+
+/* DECRYPTOR (blue neon) */
+.title span {
     color: var(--secondary);
+    display: block;
 
     text-shadow:
-        0 0 10px #00d9ff,
-        0 0 20px #00d9ff,
-        0 0 40px #00d9ff,
-        0 0 80px #00d9ff;
-}
-
-.container {
-    max-width: 500px;
-    margin: auto;
+        0 0 5px var(--secondary),
+        0 0 15px var(--secondary),
+        0 0 30px var(--secondary);
 }
 
 /* 🔹 SUBTITLE */
@@ -125,21 +91,22 @@ body::after {
 
 /* 🔹 BUTTON */
 .btn {
+    padding: 12px 25px;
     background: transparent;
     border: 1px solid var(--primary);
     color: var(--primary);
-    padding: 10px 25px;
     cursor: pointer;
     font-family: inherit;
     clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
 }
 
-.btn:hover { background: var(--primary); color: #000; box-shadow: var(--neon-glow); }
+.btn:hover {
+    background: var(--primary);
+    color: black;
+    box-shadow: var(--neon-glow);
+}
 
-.fade { animation: fadeIn 0.8s ease-in; }
-@keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
-
-/* 🔹 GLASS */
+/* 🔹 GLASS CARD */
 .glass {
     background: var(--glass);
     backdrop-filter: blur(10px);
@@ -152,15 +119,18 @@ body::after {
 /* 🔹 GAME BOARD */
 #game-board {
     display: grid;
-    grid-template-columns: repeat(4, 80px);
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
-    justify-content: center;
+    max-width: 320px;
+    margin: auto;
 }
 
 /* 🔹 CARDS */
 .card {
-    aspect-ratio: 1/1;
+    width: 100%;
+    aspect-ratio: 1 / 1;
     perspective: 1000px;
+    cursor: pointer;
 }
 
 .card-inner {
@@ -175,8 +145,7 @@ body::after {
     transform: rotateY(180deg);
 }
 
-.card-front,
-.card-back {
+.card-front, .card-back {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -200,6 +169,7 @@ body::after {
     font-size: 2rem;
 }
 
+/* MATCHED */
 .card.matched {
     border: 1px solid var(--secondary);
     box-shadow: 0 0 15px var(--secondary);
@@ -216,22 +186,17 @@ body::after {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* 📱 MOBILE (FIXED HORIZONTAL NAV) */
+/* 📱 MOBILE */
 @media (max-width: 600px) {
 
     .navbar {
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        overflow-x: auto;
-    }
-
-    .navbar a {
-        min-width: 80px;
-        font-size: 11px;
+        flex-direction: column;
+        gap: 8px;
     }
 
     .title {
-        font-size: 24px;
+        font-size: 28px;
+        letter-spacing: 1px;
     }
 
     .subtitle {
