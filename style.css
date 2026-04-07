@@ -145,10 +145,9 @@ body::after {
 /* 🔹 GAME BOARD */
 #game-board {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 80px);
     gap: 10px;
-    max-width: 320px;
-    margin: auto;
+    justify-content: center;
 }
 
 /* 🔹 CARDS */
