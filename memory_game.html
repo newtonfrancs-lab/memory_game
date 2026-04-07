@@ -1,86 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural Decryptor | Breach</title>
+    <title>Memory Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<nav class="navbar">
-    <a href="index.html">01_ROOT</a>
-    <a href="memory_game.html">02_BREACH</a>
-    <a href="leaderboard.html">03_RANK</a>
-    <a href="about.html">04_LOGS</a>
-</nav>
+    <nav class="navbar">
+        <a href="index.html">01_ROOT</a>
+        <a href="memory_game.html">02_BREACH</a>
+        <a href="leaderboard.html">03_RANK</a>
+        <a href="about.html">04_LOGS</a>
+    </nav>
 
-<div class="container fade">
-
-    <h2>MEMORY_BREACH</h2>
+    <h2>Memory Matching Game</h2>
 
     <div id="game-board"></div>
 
-    <button class="btn" onclick="startGame()">RESTART</button>
+    <button onclick="startGame()">Restart</button>
 
-</div>
+    <script>
+        const symbols = ["🍎","🍌","🍇","🍓","🍍","🥝","🍒","🥥"];
+        let cards = [...symbols, ...symbols];
+        let flipped = [];
 
-<script>
-const symbols = ["💀","👁","⚡","🧠","💻","🔐","📡","🧬"];
-let cards = [...symbols, ...symbols];
-let flipped = [];
-let matched = [];
-
-function shuffle(array){
-    for(let i=array.length-1;i>0;i--){
-        let j=Math.floor(Math.random()*(i+1));
-        [array[i],array[j]]=[array[j],array[i]];
-    }
-}
-
-function startGame(){
-    const board = document.getElementById("game-board");
-    board.innerHTML = "";
-    shuffle(cards);
-    flipped = [];
-    matched = [];
-
-    cards.forEach((symbol,index)=>{
-        const card = document.createElement("div");
-        card.className = "card";
-
-        card.innerHTML = `
-            <div class="card-inner">
-                <div class="card-front">?</div>
-                <div class="card-back">${symbol}</div>
-            </div>
-        `;
-
-        card.onclick = () => flipCard(card,index);
-        board.appendChild(card);
-    });
-}
-
-function flipCard(card,index){
-    if(flipped.length<2 && !card.classList.contains("flipped")){
-        card.classList.add("flipped");
-        flipped.push({card,index});
-
-        if(flipped.length===2){
-            if(cards[flipped[0].index]===cards[flipped[1].index]){
-                flipped = [];
-            } else {
-                setTimeout(()=>{
-                    flipped.forEach(f=>f.card.classList.remove("flipped"));
-                    flipped = [];
-                },600);
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
             }
         }
-    }
-}
 
-startGame();
-</script>
+        function startGame() {
+            const board = document.getElementById("game-board");
+            board.innerHTML = "";
+            shuffle(cards);
+            flipped = [];
+
+            cards.forEach((symbol) => {
+                const card = document.createElement("div");
+                card.className = "card";
+                card.innerHTML = "?";
+
+                card.onclick = () => flipCard(card, symbol);
+                board.appendChild(card);
+            });
+        }
+
+        function flipCard(card, symbol) {
+            if (flipped.length < 2 && !card.classList.contains("flipped")) {
+                card.innerHTML = symbol;
+                card.classList.add("flipped");
+                flipped.push(card);
+
+                if (flipped.length === 2) {
+                    if (flipped[0].innerHTML !== flipped[1].innerHTML) {
+                        setTimeout(() => {
+                            flipped.forEach(c => {
+                                c.innerHTML = "?";
+                                c.classList.remove("flipped");
+                            });
+                            flipped = [];
+                        }, 800);
+                    } else {
+                        flipped = [];
+                    }
+                }
+            }
+        }
+
+        startGame();
+    </script>
 
 </body>
 </html>
