@@ -82,6 +82,12 @@ body {
     color: inherit;
 }
 
+text-shadow:
+    0 0 10px #00d9ff,
+    0 0 20px #00d9ff,
+    0 0 40px #00d9ff,
+    0 0 80px #00d9ff;
+
 /* 🔹 SUBTITLE */
 .subtitle {
     margin: 20px 0;
