@@ -118,20 +118,19 @@ body::after {
 
 /* 🔹 BUTTON */
 .btn {
-    padding: 12px 25px;
     background: transparent;
     border: 1px solid var(--primary);
     color: var(--primary);
+    padding: 10px 25px;
     cursor: pointer;
     font-family: inherit;
-    transition: 0.3s;
+    clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
 }
 
-.btn:hover {
-    background: var(--primary);
-    color: black;
-    box-shadow: var(--neon-glow);
-}
+.btn:hover { background: var(--primary); color: #000; box-shadow: var(--neon-glow); }
+
+.fade { animation: fadeIn 0.8s ease-in; }
+@keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
 
 /* 🔹 GLASS */
 .glass {
