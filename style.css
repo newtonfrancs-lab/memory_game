@@ -49,20 +49,15 @@ body {
 /* 🔹 Cards & Board */
 #game-board {
     display: grid;
-    grid-template-columns: repeat(4, 85px);
-    gap: 15px;
+    grid-template-columns: repeat(4, 80px);
+    gap: 10px;
     justify-content: center;
-    perspective: 1000px;
-    margin: 30px auto;
 }
 
 .card {
-    width: 85px;
-    height: 110px;
-    cursor: pointer;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    font-size: 24px;
 }
 
 .card.flipped { transform: rotateY(180deg); }
