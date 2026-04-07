@@ -77,16 +77,23 @@ body::after {
     border-bottom: 1px solid var(--primary);
 }
 
-.navbar a {
-    color: var(--primary);
-    text-decoration: none;
-    font-size: 0.8rem;
-    letter-spacing: 2px;
-    font-weight: bold;
-}
+@media (max-width: 600px) {
 
-.navbar a:hover {
-    text-shadow: var(--neon-glow);
+    .navbar {
+        flex-direction: row;           /* 🔥 keep horizontal */
+        justify-content: space-around; /* spread evenly */
+        align-items: center;
+        flex-wrap: nowrap;             /* no wrapping */
+        gap: 5px;
+        padding: 10px;
+    }
+
+    .navbar a {
+        font-size: 10px;               /* smaller text for mobile */
+        letter-spacing: 1px;
+        padding: 5px;
+        border: none;                  /* cleaner look */
+    }
 }
 
 /* 🔹 HERO */
