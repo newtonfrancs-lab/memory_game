@@ -110,6 +110,11 @@ body::after {
         0 0 80px #00d9ff;
 }
 
+.container {
+    max-width: 500px;
+    margin: auto;
+}
+
 /* 🔹 SUBTITLE */
 .subtitle {
     margin: 20px 0;
