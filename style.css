@@ -89,9 +89,11 @@ body::after {
     text-shadow: var(--neon-glow);
 }
 
-/* 🔹 HERO */
-.hero {
-    margin-top: 80px;
+.hero h1 {
+    font-size: clamp(28px, 8vw, 60px);
+    letter-spacing: 3px;
+    text-align: center;
+    word-break: break-word;
     padding: 0 10px;
 }
 
