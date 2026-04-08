@@ -21,6 +21,15 @@
         <a href="about.html">04_LOGS</a>
     </nav>
 
+    <p id="welcome"></p>
+
+    <script>
+    const user = localStorage.getItem("user");
+    if(user){
+        document.getElementById("welcome").innerText = "WELCOME " + user;
+    }
+    </script>
+
     <!-- 🔹 HERO SECTION -->
     <div class="hero fade">
 
