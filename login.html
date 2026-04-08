@@ -1,1 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Neural Decryptor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+<div class="glass" style="margin-top:100px;">
+
+    <h2>USER_LOGIN</h2>
+
+    <input type="text" id="username" placeholder="Enter Username" style="padding:10px; margin:10px;"><br>
+
+    <button class="btn" onclick="login()">ACCESS</button>
+
+</div>
+
+<script>
+function login() {
+    const user = document.getElementById("username").value;
+
+    if(user.trim() === "") {
+        alert("Enter username");
+        return;
+    }
+
+    localStorage.setItem("user", user);
+
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>
